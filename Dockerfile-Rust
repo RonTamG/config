@@ -1,0 +1,30 @@
+FROM code
+RUN apt-get update -y && apt-get upgrade -y
+
+# Extensions
+
+# Rust
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN apt-get install curl=7.81.0-1ubuntu1.3 -y \
+	&& apt-get install build-essential=12.9ubuntu3 -y --no-install-recommends \
+	&& curl https://sh.rustup.rs -sSf | sh -s -- --default-host x86_64-unknown-linux-gnu --default-toolchain stable --profile default -y \
+	&& ~/.cargo/bin/rustup component add rust-src
+
+RUN curl -L https:/github.com/vadimcn/vscode-lldb/releases/download/v1.7.4/codelldb-x86_64-linux.vsix -o codelldb-x86_64-linux.vsix \
+	&& code-server --install-extension codelldb-x86_64-linux.vsix \
+	&& rm codelldb-x86_64-linux.vsix
+
+RUN curl -L https://github.com/rust-lang/rust-analyzer/releases/download/2022-08-22/rust-analyzer-linux-x64.vsix -o rust-analyzer-linux-x64.vsix \
+	&& code-server --install-extension rust-analyzer-linux-x64.vsix \
+	&& rm rust-analyzer-linux-x64.vsix
+
+RUN apt-get remove curl -y \
+	&& apt-get autoremove -y \
+	&& apt-get clean \
+	&& rm -rf /var/lib/apt/lists/* 	
+
+EXPOSE 8080
+
+CMD ["code-server", \
+	"--bind-addr", "0.0.0.0:8080", \
+	"--auth", "none"]
