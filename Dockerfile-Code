@@ -1,6 +1,9 @@
 FROM ubuntu:rolling
 RUN apt-get update -y && apt-get upgrade -y
 
+RUN apt-get install ssh=1:8.9p1-3 -y --no-install-recommends \
+	&& apt-get clean
+
 RUN apt-get install git=1:2.34.1-1ubuntu1.4 -y --no-install-recommends \
 	&& apt-get clean
 
