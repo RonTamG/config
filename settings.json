@@ -65,4 +65,7 @@
     ],
     "workbench.editor.showTabs": true,
     "editor.suggestSelection": "first",
+    "editor.lineNumbers": "relative",
+    "zenMode.hideLineNumbers": false,
+    "search.showLineNumbers": true,
 }
