@@ -14,6 +14,20 @@ function! s:splitNew(...)
     call s:split(a:1, file == '' ? '__vscode_new__' : file)
 endfunction
 
+
+function! s:vscodeCommentary(...) abort
+    if !a:0
+        let &operatorfunc = matchstr(expand('<sfile>'), '[^. ]*$')
+        return 'g@'
+    elseif a:0 > 1
+        let [line1, line2] = [a:1, a:2]
+    else
+        let [line1, line2] = [line("'["), line("']")]
+    endif
+
+    call VSCodeCallRange("editor.action.commentLine", line1, line2, 0)
+endfunction
+
 function! s:closeOtherEditors()
     call VSCodeNotify('workbench.action.closeEditorsInOtherGroups')
     call VSCodeNotify('workbench.action.closeOtherEditors')
@@ -66,8 +80,8 @@ nnoremap <silent> <C-l> :call VSCodeNotify('workbench.action.navigateRight')<CR>
 xnoremap <silent> <C-l> :call VSCodeNotify('workbench.action.navigateRight')<CR>
 
 " Bind C-/ to vscode commentary since calling from vscode produces double comments due to multiple cursors
-xnoremap <silent> <C-/> :call Comment()<CR>
-nnoremap <silent> <C-/> :call Comment()<CR>
+xnoremap <expr> <C-/> <SID>vscodeCommentary()
+nnoremap <expr> <C-/> <SID>vscodeCommentary() . '_'
 
 nnoremap <silent> <C-w>_ :<C-u>call VSCodeNotify('workbench.action.toggleEditorWidths')<CR>
 
