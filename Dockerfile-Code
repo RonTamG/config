@@ -28,7 +28,8 @@ RUN apt-get install curl=7.81.0-1ubuntu1.6 -y \
 RUN code-server --install-extension akamud.vscode-theme-onedark@2.3.0 \
 	&& code-server --install-extension mhutchie.git-graph@1.30.0 \
 	&& code-server --install-extension PKief.material-icon-theme@4.22.0 \
-	&& code-server --install-extension usernamehw.errorlens@3.6.0
+	&& code-server --install-extension usernamehw.errorlens@3.6.0 \
+	&& code-server --install-extension ms-vscode.hexeditor@1.9.9
 
 
 # Neovim
