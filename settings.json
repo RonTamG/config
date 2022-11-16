@@ -68,4 +68,5 @@
     "editor.lineNumbers": "relative",
     "zenMode.hideLineNumbers": false,
     "search.showLineNumbers": true,
+    "editor.inlayHints.enabled": "off",
 }

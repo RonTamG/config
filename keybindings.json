@@ -170,10 +170,6 @@
       "when": "editorTextFocus && neovim.ctrlKeysNormal && neovim.init && neovim.mode != 'insert'"
     },
     {
-      "key": "ctrl+h",
-      "command": "rust-analyzer.toggleInlayHints"
-    },
-    {
       "key": "shift+alt+k",
       "command": "editor.action.showHover",
       "when": "editorTextFocus"
