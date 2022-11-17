@@ -56,6 +56,12 @@
             "type": "command",
             "command": "workbench.action.togglePanel"
         },
+	{
+            "key": "g",
+            "name": "Git Log",
+            "type": "command",
+            "command": "git-graph.view"
+        },
         {
             "key": "z",
             "name": "Toggle zen mode",
