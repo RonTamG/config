@@ -1,0 +1,21 @@
+FROM code
+RUN apt-get update -y && apt-get upgrade -y
+
+RUN apt-get install python3 -y
+
+RUN code-server --install-extension ms-python.python
+
+RUN apt-get install python3-pip -y
+
+RUN pip install pytest
+
+RUN apt-get autoremove -y \
+	&& apt-get clean \
+	&& rm -rf /var/lib/apt/lists/* 	
+
+EXPOSE 8080
+
+CMD ["code-server", \
+	"--bind-addr", "0.0.0.0:8080", \
+	"--auth", "none"]
+

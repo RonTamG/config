@@ -1,27 +1,31 @@
 FROM code
 RUN apt-get update -y && apt-get upgrade -y
 
-# Extensions
-
 # Rust
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN apt-get install curl -y \
 	&& apt-get install build-essential -y --no-install-recommends \
-	&& curl https://sh.rustup.rs -sSf | sh -s -- --default-host x86_64-unknown-linux-gnu --default-toolchain stable --profile default -y \
-	&& ~/.cargo/bin/rustup component add rust-src
+	&& curl https://sh.rustup.rs -sSf | sh -s -- --default-host x86_64-unknown-linux-gnu --default-toolchain stable --profile default -y 
 
+# Rust source
+RUN  ~/.cargo/bin/rustup component add rust-src
+
+# Rust vscode debugging
 RUN curl -fsSL https:/github.com/vadimcn/vscode-lldb/releases/latest/download/codelldb-x86_64-linux.vsix -o codelldb-x86_64-linux.vsix \
 	&& code-server --install-extension codelldb-x86_64-linux.vsix \
 	&& rm codelldb-x86_64-linux.vsix
 
+# Rust language server
 RUN curl -fsSL https://github.com/rust-lang/rust-analyzer/releases/latest/download/rust-analyzer-linux-x64.vsix -o rust-analyzer-linux-x64.vsix \
 	&& code-server --install-extension rust-analyzer-linux-x64.vsix \
 	&& rm rust-analyzer-linux-x64.vsix
 
+# Cleanup
 RUN apt-get remove curl -y \
 	&& apt-get autoremove -y \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* 	
+
 
 EXPOSE 8080
 

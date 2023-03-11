@@ -32,12 +32,15 @@ RUN code-server --install-extension akamud.vscode-theme-onedark \
 # Neovim
 RUN curl -fsSL https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.deb -o /tmp/nvim-linux64.deb \
         && apt install /tmp/nvim-linux64.deb \
-	&& code-server --install-extension asvetliakov.vscode-neovim \
-	&& code-server --install-extension vspacecode.whichkey \   
+	&& rm /tmp/nvim-linux64.deb \
 	&& apt-get remove curl -y \
 	&& apt-get autoremove -y \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
+
+RUN code-server --install-extension asvetliakov.vscode-neovim \
+	&& code-server --install-extension vspacecode.whichkey \   
+
 
 EXPOSE 8080
 
@@ -50,3 +53,4 @@ COPY ./settings.json /root/.local/share/code-server/User/settings.json
 CMD ["code-server", \
 	"--bind-addr", "0.0.0.0:8080", \
 	"--auth", "none"]
+
